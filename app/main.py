@@ -1,12 +1,14 @@
 def copy_file(command: str) -> None:
-    file_name = command.split()
-    try:
-        if (file_name[1] != file_name[2]) and file_name[0] == "cp":
-            with (open(file_name[1], "r") as file_in,
-                  open(file_name[2], "w") as file_out):
-                read_content = file_in.read()
-                file_out.write(read_content)
-    except FileNotFoundError:
-        print(f"File {file_name[1]} does not exist")
-    except IndexError as e:
-        print(f"An error occured {e}")
+    command_parts = command.split()
+    if len(command_parts) != 3 or command_parts[0] != "cp":
+        print("Invalid command format.Use 'cp' source file destination_file")
+    else:
+        source_file, destination_file = command_parts[1], command_parts[2]
+        if source_file != destination_file:
+            try:
+                with (open(source_file, "r") as file_in,
+                      open(destination_file, "w") as file_out):
+                    read_content = file_in.read()
+                    file_out.write(read_content)
+            except FileNotFoundError:
+                print(f"File {source_file} does not exist")
